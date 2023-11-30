@@ -1,0 +1,79 @@
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+    max-width: 600px; /* Justera bredden efter behov */
+    margin-top: -50.1px;
+    position: relative; /* Positionera relativt för input-container */
+  }
+
+
+  .back-button-chat {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0);
+    border-color: transparent;
+    color: white;
+    top: 80px;
+    left: 40px;
+    cursor: pointer;
+    rotate: 45deg;
+    font-size: 30px;
+  }
+  
+  .messages-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    height: 80vh; /* Definiera en specifik höjd */
+    margin-bottom: 10px;
+    margin-top: 10%;
+    padding-bottom: 10%;
+    padding-top: 20%;
+  }
+  
+  
+  .message {
+    max-width: 70%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 20px;
+    word-wrap: break-word;
+  }
+  
+  .sender {
+    align-self: flex-end;
+    background-color: lightblue; /* Ändra färg efter behov */
+  }
+  
+  .receiver {
+    align-self: flex-start;
+    background-color: lightgrey; /* Ändra färg efter behov */
+  }
+  
+  .input-container {
+    display: flex;
+    position: fixed; /* Gör så att input-container inte påverkar höjden av chat-container */
+    bottom: 10px; /* Placera vid botten av chat-container */
+    width: 96%; /* Full bredd */
+  }
+  
+  .message-input {
+    flex-grow: 1;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .send-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: lightblue; /* Ändra färg efter behov */
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+  }
+  
+  .send-button:hover {
+    background-color: darkblue;
+  }
+  

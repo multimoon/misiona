@@ -1,0 +1,410 @@
+.play-wrapper {
+  display: flex;
+  justify-content: center; /* Centrera horisontellt */
+  height: 100%; /* Ta upp hela skärmens höjd */
+  width: 100%; /* Ta upp hela skärmens bredd */
+  margin-top: 95px;
+}
+
+
+
+.play-container {
+  color: #e5e5e5;
+  border-radius: 5px;
+  width: 60%;
+  max-width: 600px;
+  padding: 20px; /* Lägg till lite padding */
+  position: relative; /* För positionering av cirkeln och poäng */
+}
+
+
+
+.green-circle {
+  width: 15px; /* Storlek på cirkeln */
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid #ffffff;
+  background-color: rgba(0, 128, 0, 0); /* Grön färg */
+  position: absolute; /* Positionera cirkeln */
+  top: -52px; /* Justera position efter behov */
+  right: -30.5px;
+  cursor: pointer; /* Ändra muspekaren till en pekare */
+}
+
+
+.back-to-game {
+    position: absolute;
+    top: -60px;
+    left: -21px;
+    cursor: pointer;
+    rotate: 45deg;
+    font-size: 30px;
+    /* Ytterligare styling som behövs */
+  }
+
+
+
+  
+  .circle {
+    position: absolute;
+    top: 19px;
+    left: -30px;
+    width: 35px; /* Exempelstorlek */
+    height: 35px;
+    border-radius: 50%;
+    background-color: blue; /* Eller annan önskad färg */
+  }
+
+
+  .username-rating-container {
+    display: flex;
+    align-items: center; /* Centrera elementen vertikalt */
+    margin-top: 20px; /* Justera utrymme över containern */
+  }
+  
+  .username {
+    margin-top: -12px;
+    margin-right: 20px; /* Utrymme mellan Username och Betyg */
+    /* Ytterligare stil för användarnamnet */
+  }
+  
+  .rating {
+    margin-top: -12px;
+  }
+  
+  .challenge-points {
+    position: absolute;
+    top: 27px;
+    right: 16.5px;
+    color: green;
+  }
+  
+  .challenge-description {
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+    margin-top: 10px; /* Justera detta värde vid behov */
+  }
+  
+  .challenge-details {
+    color: white;
+    margin-top: -20px;
+  }
+
+  .user-villkor {
+    margin-top: 0px;
+    margin-bottom: 30px;
+  }
+  
+  .villkor-time-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .villkor-title {
+    font-weight: bold;
+    /* Andra stilar för "Villkor"-titeln */
+  }
+  
+
+
+  .box-title-motivering {
+    position: absolute;
+    margin-top: 15px;
+    margin-left: 11px;
+    width: 103px;
+    height: 10px;
+    background-color: #082744;
+  }
+
+.title-motivering {
+    position: absolute;
+    color: #ffffff;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 19px;
+    font-size: 17px;
+    font-weight: bold;
+  }
+  
+  .motivering {
+    border-radius: 8px;
+    padding: 20px 20px 0 20px;
+    width: 89%;
+    height: 38px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    background-color: #082744;
+    color: #e5e5e5;
+    font-size: 15px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    border: 0.5px solid #ffffff;
+    resize: none; /* Hindrar användaren från att manuellt ändra storleken */
+    overflow: hidden; /* Håller innehållet inom ramarna av textarea */
+    min-height: 10px; /* Start höjd */
+  }
+  
+  
+  /* Befintliga stilar ... */
+
+  
+  .play-checkbox-container {
+    margin-top: 10px;
+    font-weight: lighter;
+  }
+
+    .godkann {
+        font-size: 16px;
+        margin-left: 10px;
+    }
+
+    .play-checkbox-container-picture {
+        margin-top: -10px;
+        font-weight: lighter;
+      }
+
+      .bifoga-bild {
+        margin-left: 10px;
+        font-size: 16px;
+      }
+
+      .uploaded-file-name {
+        margin-left: 10px;
+        /* Lägg till ytterligare styling om det behövs */
+      }
+
+    
+  
+  .status-submit {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 29px;
+  }
+
+  .skicka-in {
+    background: transparent;
+    color: #FFD700;
+    font-size: 17px;
+    border: transparent;
+    font-weight: bold;
+  }
+  
+  .custom-hr {
+    margin-top: 0px;
+    margin-bottom: 10px;
+    height: 1px;
+    opacity: 0.5;
+    background-color: rgb(255, 255, 255); /* Guld färg för denna specifika HR */
+  }
+  
+        .status-info {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .väntar {
+            color: #5c5c5c;
+        }
+
+        .deltar {
+            color: green;
+        }
+
+        .klara {
+            color: #FFD700; /* Bakgrundsfärg vid hover */
+        }
+  
+  /* Använd samma stil som i create.css för denna HR */
+  .play-hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 1px;
+    opacity: 0.1;
+    background-color: rgb(255, 255, 255);
+  }
+
+  .text-options {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+  }
+
+
+
+
+
+
+
+
+
+
+  .motivering-item {
+    display: flex;
+    align-items: flex-start; /* Anpassar den röda cirkeln till toppen av motiveringstexten */
+    margin-top: 10px;
+  }
+  
+  .red-circle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: red;
+    margin-left: -40px;
+    margin-top: 31px;
+  }
+
+  .nutid {
+    position: absolute;
+    margin-left: -38px;
+    margin-top: 25px;
+  } 
+  
+
+  .motivering-content {
+    flex-grow: 1;
+    margin-left: -20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+  
+  .motivering-header {
+    display: flex;
+    margin-bottom: 5px; /* Utrymme mellan header och motiveringstext */
+    margin-left: 20px;
+    margin-top: -21px;
+  }
+
+ /*   .anvandare {
+
+    }*/
+
+    .betyg {
+        margin-left: 10px;
+
+    }
+
+
+    .ellipsis {
+      margin-top: 12px;
+      margin-left: auto; /* Flytta ellipsis till höger */
+      /* Ytterligare stil om det behövs */
+    }
+    
+
+
+
+    .uploaded-image {
+      max-width: 95%; /* Se till att bilden passar inom dess behållare */
+      height: auto; /* Bibehåll bildens aspektförhållande */
+      margin-bottom: 20px; /* Lägg till lite utrymme under bilden */
+      margin-left: 20px;
+    }
+  
+    
+
+    .motivering-text {
+        margin-top: -10px;
+        margin-left: 21px;
+    }
+
+      .motivering-footer {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px; /* Justera storleken efter behov */
+        width: 95%;
+        margin-left: 21px;
+        margin-top: 35px;
+      }
+      
+      .comment-hr {
+        margin-top: 10px;
+        margin-left: 19px;
+        margin-bottom: -5px;
+        width: 95%;
+        opacity: 0.5;
+        background-color: rgb(255, 255, 255); /* Anpassa färg efter behov */
+      }
+  
+  
+.comment-input {
+    height: 36px;
+    width: 340px;
+    padding-top: 16px;
+    padding-left: 10px;
+    margin: 5px 0px 27px 19px;
+
+    background-color: #082744;
+    color: #e5e5e5;
+    border-inline: 1px solid #00000000;
+    border-top: 1px solid #00000000;
+    font-size: 15px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    border-bottom: 0.5px solid #ffffff;
+    resize: none; /* Hindrar användaren från att manuellt ändra storleken */
+    overflow: hidden; /* Håller innehållet inom ramarna av textarea */
+    min-height: 10px; /* Start höjd */
+  }
+
+
+
+.send-svar {
+    position: absolute;
+    margin-left: 10px;
+    margin-top: 22px;
+    background-color: transparent;
+    border: transparent;
+    color: white;
+}
+
+
+
+.response-item {
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
+    margin-left: 60px;
+}
+
+        .red-circle2 {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: red;
+            margin-left: -40px;
+            margin-top: -74px;
+        }
+        
+        .svaret {
+            position: absolute;
+            margin-left: -10px;
+            margin-top: -40px;
+            margin-bottom: 40px;
+        }
+
+  .end-hr {
+    width: 100%;
+    margin-top: 0px;
+    margin-bottom: -30px;
+  }
+
+  .acceptera.accepted {
+    color: green;
+  }
+  
+  .belona {
+    color: white;
+    /* Övrig styling om nödvändigt */
+  }
+  
+  .belona.belonad {
+    color: gold; /* Ändra färgen till guld för 'Belönad' */
+  }
+  
+  .uppdatera {
+    color: white; /* Stil för 'Uppdatera' */
+  }
+  
