@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signOut, updateProfile } from 'firebase/auth';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { getFirestore, doc, getDoc } from 'firebase/firestore'; // Importera för att hämta data
+import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore'; // Lägg till import av updateDoc
 import './Profil.css';
 
 const Profil = () => {
@@ -19,22 +19,25 @@ const Profil = () => {
 
   useEffect(() => {
     if (auth.currentUser) {
-      // Sätt användarnamn och profilbild
+      // Sätt användarnamn
       setUsername(auth.currentUser.displayName || 'Anonym');
-      if (auth.currentUser.photoURL) {
-        setProfileImageUrl(auth.currentUser.photoURL);
-      }
-
-      // Hämta användarens uppdrag från Firestore
+  
+      // Hämta användarens information från Firestore
       const db = getFirestore();
       const userRef = doc(db, "users", auth.currentUser.uid);
       getDoc(userRef).then((docSnap) => {
         if (docSnap.exists()) {
+          // Uppdatera missions och profilbild
           setUserMissions(docSnap.data().missions || []);
+  
+          // Använd profilbild från Firestore om den finns, annars använd den från auth.currentUser
+          const firestoreProfileImgUrl = docSnap.data().profileImageUrl;
+          setProfileImageUrl(firestoreProfileImgUrl || auth.currentUser.photoURL);
         }
       });
     }
   }, [auth.currentUser]);
+  
 
 
   const handleBack = () => {
@@ -66,31 +69,37 @@ const Profil = () => {
   const handleProfileImageChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      console.log('Uppladdning av fil:', file.name);
-  
-      try {
-        const storage = getStorage();
-        console.log('Storage-instans:', storage);
-  
-        const userUID = auth.currentUser ? auth.currentUser.uid : null;
-        console.log('Användarens UID:', userUID);
-  
-        if (userUID) {
-          const storageRef = ref(storage, 'profileImages/' + userUID);
-          await uploadBytes(storageRef, file);
-  
-          const downloadURL = await getDownloadURL(storageRef);
-          await updateProfile(auth.currentUser, { photoURL: downloadURL });
-          setProfileImageUrl(downloadURL);
-        } else {
-          console.log('Ingen giltig användare inloggad.');
+        console.log('Uppladdning av fil:', file.name);
+
+        try {
+            const storage = getStorage();
+            const userUID = auth.currentUser ? auth.currentUser.uid : null;
+
+            if (userUID) {
+                const storageRef = ref(storage, 'profileImages/' + userUID);
+                await uploadBytes(storageRef, file);
+
+                const downloadURL = await getDownloadURL(storageRef);
+
+                // Uppdatera användarens profilbild i Firebase Authentication
+                await updateProfile(auth.currentUser, { photoURL: downloadURL });
+
+                // Spara även URL:en i Firestore
+                const db = getFirestore();
+                const userRef = doc(db, "users", userUID);
+                await updateDoc(userRef, { profileImageUrl: downloadURL }); // Använder updateDoc för att uppdatera dokumentet
+
+                setProfileImageUrl(downloadURL);
+                console.log('Profilbild uppdaterad i Firestore och Firebase Auth');
+            } else {
+                console.log('Ingen giltig användare inloggad.');
+            }
+        } catch (error) {
+            console.error('Fel vid uppladdning av profilbild:', error);
         }
-      } catch (error) {
-        console.error('Fel vid uppladdning av profilbild:', error);
-      }
     }
-  };
-  
+};
+
 
 
   const navigateToChat = () => {

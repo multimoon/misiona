@@ -1,11 +1,14 @@
-import React, { useState, useRef } from 'react'; 
+import React, { useState, useRef, useEffect } from 'react'; 
 import { useNavigate, useLocation } from 'react-router-dom';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import './Play.css';
+
 
 const Play = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const challenge = location.state.challenge;
+  const [creatorInfo, setCreatorInfo] = useState({ username: 'Laddar...', profileImageUrl: '' });
   const motiveringRef = useRef(null); // Skapa en ref för textarean
   const [motiveringar, setMotiveringar] = useState([]); // Array för att spara motiveringstexter med ID
   const [isImageAttached, setIsImageAttached] = useState(false);
@@ -34,6 +37,36 @@ const Play = () => {
   const handleBackToGame = () => {
     navigate('/game');
   };
+
+  console.log("Challenge:", challenge);
+
+
+  useEffect(() => {
+    const fetchCreatorInfo = async () => {
+      if (challenge && challenge.createdBy) {
+        const db = getFirestore();
+        const userRef = doc(db, "users", challenge.createdBy);
+
+        try {
+          const docSnap = await getDoc(userRef);
+          if (docSnap.exists()) {
+            setCreatorInfo({
+              username: docSnap.data().username || 'Anonym',
+              profileImageUrl: docSnap.data().profileImageUrl || '' // Antag att det finns ett fält 'profileImageUrl'
+            });
+          }
+        } catch (error) {
+          console.error("Fel vid hämtning av användarinformation: ", error);
+        }
+      }
+    };
+
+    fetchCreatorInfo();
+  }, [challenge]);
+
+  console.log("Creator Info:", creatorInfo);
+
+
 
   const autoGrow = () => {
     motiveringRef.current.style.height = "10px";
@@ -152,15 +185,19 @@ const Play = () => {
       return Object.keys(acceptedMotiverings).filter(id => acceptedMotiverings[id] && !rewardedMotiverings[id]).length;
     };
 
+
+
   return (
     <div className="play-wrapper">
       <div className="play-container">
       <div className="green-circle" onClick={goToProfile}></div> {/* Lägg till grön cirkel */}
         <div className="back-to-game" onClick={handleBackToGame}>+</div>
-        <div className="circle"></div>
+        <div className="circle" style={{ backgroundImage: `url(${creatorInfo.profileImageUrl})` }}>
+          {console.log("Profile Image URL:", creatorInfo.profileImageUrl)}
+        </div>
         <div className="challenge-points">+ {challenge.points} poäng</div>
         <div className="username-rating-container">
-            <p className="username">Username</p>
+        <p className="username">{creatorInfo.username}</p>
             <p className="rating">Betyg</p>
         </div>
         <p className="challenge-description">{challenge.description}</p>

@@ -53,6 +53,8 @@
     height: 35px;
     border-radius: 50%;
     background-color: blue; /* Eller annan önskad färg */
+    background-size: cover;
+    background-position: center;
   }
 
 
