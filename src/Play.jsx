@@ -159,17 +159,19 @@ const handleSkickaIn = () => {
     const commentText = commentInputRefs.current[id].value;
     const newComment = {
       id: responses[id] ? responses[id].length + 1 : 1,
-      text: commentText
+      text: commentText,
+      userImage: loggedInUser.profileImageUrl // Lägg till den inloggade användarens profilbild
     };
-
+  
     setResponses(prevState => ({
       ...prevState,
       [id]: [...(prevState[id] || []), newComment]
     }));
-
+  
     // Rensa textarean
     commentInputRefs.current[id].value = '';
   };
+  
 
   const handleAccept = (id) => {
     setAcceptedMotiverings(prevState => ({
@@ -319,10 +321,11 @@ const handleSkickaIn = () => {
               <button className='send-svar' onClick={() => handleCommentSubmit(motivering.id)}>➤</button>
               {responses[motivering.id] && responses[motivering.id].map((response, index) => (
                 <div key={index} className="response-item">
-                  <div className="red-circle2"></div>
+                  <div className="red-circle2" style={{ backgroundImage: `url(${response.userImage})` }}></div>
                   <p className='svaret'>{response.text}</p>
                 </div>
               ))}
+
               <hr className='end-hr' />
         </>
       )}
