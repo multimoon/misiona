@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'; 
 import { useNavigate, useLocation } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import './Play.css';
 
@@ -17,6 +18,8 @@ const Play = () => {
   const fileInputRef = useRef(null);
   const [uploadedImage, setUploadedImage] = useState(null); // State för att hålla den uppladdade bilden
 
+  const auth = getAuth();
+  const [loggedInUser, setLoggedInUser] = useState({ username: 'Laddar...', profileImageUrl: '' });
 
   const [viewMode, setViewMode] = useState('all'); // 'all', 'accepted', 'rewarded'
 
@@ -68,6 +71,21 @@ const Play = () => {
 
 
 
+
+
+
+  useEffect(() => {
+    if (auth.currentUser) {
+      setLoggedInUser({
+        username: auth.currentUser.displayName || 'Anonym',
+        profileImageUrl: auth.currentUser.photoURL || ''
+      });
+    }
+  }, [auth.currentUser]);
+
+
+
+
   const autoGrow = () => {
     motiveringRef.current.style.height = "10px";
     motiveringRef.current.style.height = `${motiveringRef.current.scrollHeight}px`;
@@ -99,17 +117,19 @@ const Play = () => {
     }
   };
 
-  const handleSkickaIn = () => {
-    const nyMotivering = {
-      id: motiveringar.length + 1,
-      text: motiveringRef.current.value,
-      image: uploadedImage // Lägg till bilden
-    };
-
-    setMotiveringar([nyMotivering, ...motiveringar]);
-    setUploadedImage(null); // Rensa uppladdad bild efter inskickning
-    setUploadedFileName("");
+const handleSkickaIn = () => {
+  const nyMotivering = {
+    id: motiveringar.length + 1,
+    text: motiveringRef.current.value,
+    image: uploadedImage,
+    username: loggedInUser.username,
+    userImage: loggedInUser.profileImageUrl
   };
+
+  setMotiveringar([nyMotivering, ...motiveringar]);
+  setUploadedImage(null);
+  setUploadedFileName("");
+};
 
 
 
@@ -257,11 +277,12 @@ const Play = () => {
 
         {/* Använd visibleMotiverings för att loopa igenom och visa motiveringstexter */}
         {visibleMotiverings().map(motivering => (
-        <div key={motivering.id} className="motivering-item">
-          <div className="red-circle"></div>
-          <div className="motivering-content">
-            <div className="motivering-header">
-              <p className="anvandare">Username</p>
+      <div key={motivering.id} className="motivering-item">
+        {/* Visa användarens profilbild och användarnamn */}
+        <div className="red-circle" style={{ backgroundImage: `url(${motivering.userImage})` }}></div>
+        <div className="motivering-content">
+          <div className="motivering-header">
+            <p className="anvandare">{motivering.username}</p>
               <p className="betyg">Betyg</p>
               <div className="ellipsis">...</div> {/* Tre punkter */}
             </div>
