@@ -1,19 +1,22 @@
 import React, { useState, useRef } from 'react';
 import './Create.css';
 import { useNavigate } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
+import { getFirestore, doc, getDoc, updateDoc, collection, addDoc } from 'firebase/firestore';
 
-const Create = ({ onSubmit }) => {
+const Create = ({ updatePoints }) => {
   const navigate = useNavigate();
+  const auth = getAuth();
   const [description, setDescription] = useState('');
   const [details, setDetails] = useState('');
   const [conditions, setConditions] = useState('');
   const [automaticApproval, setAutomaticApproval] = useState(false);
   const [milestone, setMilestone] = useState(false);
-  const [milestoneText, setMilestoneText] = useState(''); // Ny state-variabel för delmåltext
+  const [milestoneText, setMilestoneText] = useState('');
   const [points, setPoints] = useState(100);
   const [users, setUsers] = useState(100);
+  const [userPoints, setUserPoints] = useState(1000);
 
-  // Refs för textarea-elementen
   const descriptionRef = useRef(null);
   const detailsRef = useRef(null);
   const conditionsRef = useRef(null);
@@ -23,7 +26,7 @@ const Create = ({ onSubmit }) => {
   const [daysCount, setDaysCount] = useState(0);
 
   const handleBackToGame = () => {
-    navigate('/game'); // Navigera tillbaka till Game
+    navigate('/game');
   };
 
   const autoGrow = (element) => {
@@ -53,27 +56,55 @@ const Create = ({ onSubmit }) => {
   };
 
   const resultString = daysCount === 0 && hoursCount === 0 && minutesCount === 0 
-  ? 'Tid' 
-  : `${daysCount > 0 ? `${daysCount} dagar ` : ''}${hoursCount > 0 ? `${hoursCount} timmar ` : ''}${minutesCount > 0 ? `${minutesCount} minuter` : ''}`;
+    ? 'Tid' 
+    : `${daysCount > 0 ? `${daysCount} dagar ` : ''}${hoursCount > 0 ? `${hoursCount} timmar ` : ''}${minutesCount > 0 ? `${minutesCount} minuter` : ''}`;
 
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const totalCost = points * users;
+  
     const challengeData = {
       description,
       details,
       conditions,
       points,
       users,
-      time: `${daysCount}d ${hoursCount}h ${minutesCount}m` // Spara tiden i önskat format
+      time: `${daysCount}d ${hoursCount}h ${minutesCount}m`,
+      createdBy: auth.currentUser ? auth.currentUser.uid : null,
     };
-    onSubmit(challengeData); 
-    navigate('/game'); // Navigera till Game-komponenten
+  
+    const db = getFirestore();
+    if (auth.currentUser) {
+      const userRef = doc(db, "users", auth.currentUser.uid);
+  
+      try {
+        const docSnap = await getDoc(userRef);
+        if (docSnap.exists()) {
+          const currentUserPoints = docSnap.data().points;
+          if (currentUserPoints >= totalCost) {
+            await updateDoc(userRef, { points: currentUserPoints - totalCost });
+            const challengesRef = collection(db, "challenges");
+            await addDoc(challengesRef, challengeData);
+  
+            setUserPoints(currentUserPoints - totalCost);
+            updatePoints(currentUserPoints - totalCost);
+            navigate('/game');
+          } else {
+            alert('Du har inte tillräckligt med poäng för att skapa denna utmaning.');
+          }
+        } else {
+          console.log("Användardokumentet finns inte");
+        }
+      } catch (error) {
+        console.error("Fel vid uppdatering av användarpoäng: ", error);
+      }
+    } else {
+      console.log("Ingen användare är inloggad.");
+    }
   };
 
-
   const goToProfile = () => {
-    navigate('/profil'); // Navigera till Profil-sidan
+    navigate('/profil');
   };
 
 

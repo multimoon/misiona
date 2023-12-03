@@ -13,6 +13,16 @@
   z-index: 500;
 }
 
+.userpoints {
+
+  position: fixed;
+  top: 51px;
+  right: 40%;
+  color: white;
+  cursor: pointer;
+  z-index: 500;
+}
+
 
 .game-container {
   position: relative;
@@ -31,6 +41,9 @@
   font-size: 25px;
   z-index: 1000;
 }
+
+
+
 
 .game-challenge-item {
   opacity: 0;
