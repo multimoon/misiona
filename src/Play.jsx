@@ -171,9 +171,10 @@ const Play = () => {
     const nyMotivering = {
         text: motiveringRef.current.value,
         image: uploadedImage,
-        username: loggedInUser.username,
+        username: loggedInUser.username,  // Här antar vi att loggedInUser innehåller den inloggade användarens information
         userImage: loggedInUser.profileImageUrl,
-        createdAt: new Date() // Lägg till tidsstämpel
+        userId: auth.currentUser.uid,  // Lägg till användarens unika ID här
+        createdAt: new Date()  // Lägg till tidsstämpel
     };
   
     const db = getFirestore();
@@ -188,7 +189,7 @@ const Play = () => {
           { ...nyMotivering, id: docRef.id, createdAt: nyMotivering.createdAt },
           ...prevMotiveringar
       ]);
-
+  
     } catch (error) {
       console.error("Error saving motivation: ", error);
     }
@@ -196,7 +197,8 @@ const Play = () => {
     setUploadedImage(null);
     setUploadedFileName("");
     motiveringRef.current.value = ""; // Clear the textarea
-};
+  };
+  
 
 
 const formatTimeSince = (date) => {
@@ -308,19 +310,38 @@ const handleReward = async (motiveringId) => {
   const motiveringRef = doc(challengeRef, "motiveringar", motiveringId);
 
   try {
-    await updateDoc(motiveringRef, {
-      status: "rewarded" // Uppdatera status till "rewarded"
-    });
+    // Uppdatera status till "rewarded"
+    const motiveringDoc = await getDoc(motiveringRef);
+    if (motiveringDoc.exists()) {
+      const motiveringData = motiveringDoc.data();
+      await updateDoc(motiveringRef, {
+        status: "rewarded"
+      });
 
-    // Uppdatera lokal state för att reflektera den nya statusen
-    setRewardedMotiverings(prevState => ({
-      ...prevState,
-      [motiveringId]: true
-    }));
+      // Hämta användarens nuvarande poäng och uppdatera dem
+      const userRef = doc(db, "users", motiveringData.userId);
+      const userDoc = await getDoc(userRef);
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        const currentPoints = Number(userData.points) || 0; // Se till att 'points' är en siffra
+        const challengePoints = Number(challenge.points) || 0; // Se till att 'challenge.points' är en siffra
+        const newPoints = currentPoints + challengePoints; // Utför numerisk addition
+        await updateDoc(userRef, {
+          points: newPoints
+        });
+      }
+
+      // Uppdatera lokal state för att reflektera den nya statusen
+      setRewardedMotiverings(prevState => ({
+        ...prevState,
+        [motiveringId]: true
+      }));
+    }
   } catch (error) {
-    console.error("Error updating reward status: ", error);
+    console.error("Error updating reward status or user points: ", error);
   }
 };
+
 
 
 
