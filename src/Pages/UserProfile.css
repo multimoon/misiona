@@ -1,0 +1,143 @@
+.user-profil-container {
+    padding-top: 80px;
+    width: 77%;
+    margin-left: 11%;
+  }
+
+  
+    
+    .user-profile-circle {
+      width: 80px;
+      height: 80px;
+      border: 1px solid #ffe70e;
+      border-radius: 50%;
+      background-color: rgba(221, 221, 221, 0.774);
+      background-size: cover;
+      margin-left: 58px;
+      margin-top: 40px;
+      margin-bottom: 25px;
+  
+    }
+    
+    .user-username {
+      position: absolute;
+      font-size: 25px;
+      font-weight: bold;
+      color: white;
+      margin-top: -84px;
+      margin-left: 165px;
+  }
+  
+  .user-ratings-container {
+      display: flex;
+      margin-top: -40px;
+      margin-left: 165px;
+  }
+    
+                      .user-small-circle1 {
+                          display: inline-block;
+                          width: 15px;
+                          height: 15px;
+                          border-radius: 50%;
+                          background-color: #ddd; /* Change color as needed */
+                          margin-right: 3px;
+                      }
+                      .user-small-circle2 {
+                          display: inline-block;
+                          width: 15px;
+                          height: 15px;
+                          border-radius: 50%;
+                          background-color: #10a71f; /* Change color as needed */
+                          margin-right: 5px;
+                      }
+                      .user-mall-circle3 {
+                          display: inline-block;
+                          width: 15px;
+                          height: 15px;
+                          border-radius: 50%;
+                          background-color: #e4c70c; /* Change color as needed */
+                          margin-right: 5px;
+                      }
+                      
+                      .rating-number {
+                          color: white;
+                          margin-right: 15px;
+                          margin-top: -2px;
+                      }
+    
+    .user-betyg-label {
+      font-size: 16px;
+      color: #10a71f;
+      margin-top: 10px;
+      margin-bottom: 20px; 
+      margin-left: 80%; 
+  }
+  
+  
+  .user-chat {
+    display: absolute;
+    margin-top: 38px;
+    margin-bottom: 15px;
+    margin-left: 14%;
+    color: white;
+    font-weight: bolder;
+  }
+    
+  
+    
+    .user-profile-hr {
+      border: none;
+      height: 0.5px;
+      background-color: #e4c70c; /* Set the color to yellow */
+      width: 80%;
+      margin: auto;
+      margin-bottom: 20px;
+    }
+  
+  
+  
+  
+  
+  
+    .user-category {
+    color: #e4c70c; 
+    margin-left: 13.5%;
+    }
+  
+    
+  
+  
+    .user-mission-item {
+      color: white;
+      margin-left: 14%;
+      margin-top: 5%;
+      margin-bottom: 5%;
+  
+    }
+  
+  
+  
+  
+  .scroll-list {
+    border: rgba(255, 255, 255, 0.202) solid 1px;
+    width: 80%;
+    margin: auto;
+    padding: 0;
+  
+  } 
+  .edit-profile {
+    margin-left: 10%;
+    
+  }
+  
+  .log-out-button {
+    margin-left: 5px;
+  }
+  
+  .edit-user {
+    position: absolute;
+    width: 20px;
+  
+  }
+  
+  

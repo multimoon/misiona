@@ -3,7 +3,15 @@
   justify-content: center; /* Centrera horisontellt */
   height: 100%; /* Ta upp hela skärmens höjd */
   width: 100%; /* Ta upp hela skärmens bredd */
-  margin-top: 95px;
+  padding-top: 120px;
+}
+
+.current-userpoints-play {
+  position: absolute;
+  top: 33px;
+  right: 99px;
+  font-size: 15px;
+  color: #e5e5e5;
 }
 
 
@@ -32,6 +40,7 @@
 }
 
 
+
 .back-to-game {
     position: absolute;
     top: -60px;
@@ -48,7 +57,7 @@
   .circle {
     position: absolute;
     top: 19px;
-    left: -30px;
+    left: 18px;
     width: 35px; /* Exempelstorlek */
     height: 35px;
     border-radius: 50%;
@@ -62,6 +71,7 @@
     display: flex;
     align-items: center; /* Centrera elementen vertikalt */
     margin-top: 20px; /* Justera utrymme över containern */
+    margin-left: 60px;
   }
   
   .username {
@@ -74,23 +84,33 @@
     margin-top: -12px;
   }
   
-  .challenge-points {
+  .mission-points {
     position: absolute;
-    top: 27px;
+    top: 8px;
     right: 16.5px;
     color: green;
-  }
-  
-  .challenge-description {
-    font-size: 30px;
+    font-size: 18px;
     font-weight: bold;
-    color: white;
-    margin-top: 10px; /* Justera detta värde vid behov */
+  }
+
+  .total-users {
+    position: absolute;
+    margin-top: -22px;
+    right: 25px;
   }
   
-  .challenge-details {
+  .mission-title {
+    font-size: 25px;
+    font-weight: normal;
     color: white;
-    margin-top: -20px;
+    margin-top: 40px; /* Justera detta värde vid behov */
+    margin-bottom: 50px;
+  }
+  
+  .mission-details {
+    color: white;
+    margin-top: -10px;
+    margin-bottom: 40px;
   }
 
   .user-villkor {

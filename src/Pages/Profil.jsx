@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signOut, updateProfile } from 'firebase/auth';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore'; // Lägg till import av updateDoc
+import { query, where, collection, getFirestore, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore'; // Lägg till import av updateDoc
 import './Profil.css';
 
 const Profil = () => {
@@ -13,7 +13,6 @@ const Profil = () => {
   const [username, setUsername] = useState('Username'); // Ersätt med faktiskt användarnamn
   const fileInputRef = useRef(null); // Referens för filinput
   const [profileImageUrl, setProfileImageUrl] = useState(''); // State för att hantera profilbilden
-
   const [userMissions, setUserMissions] = useState([]); // State för att lagra användarens uppdrag
 
 
@@ -21,15 +20,11 @@ const Profil = () => {
     if (auth.currentUser) {
       // Sätt användarnamn
       setUsername(auth.currentUser.displayName || 'Anonym');
-  
       // Hämta användarens information från Firestore
       const db = getFirestore();
       const userRef = doc(db, "users", auth.currentUser.uid);
       getDoc(userRef).then((docSnap) => {
         if (docSnap.exists()) {
-          // Uppdatera missions och profilbild
-          setUserMissions(docSnap.data().missions || []);
-  
           // Använd profilbild från Firestore om den finns, annars använd den från auth.currentUser
           const firestoreProfileImgUrl = docSnap.data().profileImageUrl;
           setProfileImageUrl(firestoreProfileImgUrl || auth.currentUser.photoURL);
@@ -37,17 +32,34 @@ const Profil = () => {
       });
     }
   }, [auth.currentUser]);
+
+  useEffect(() => {
+    const fetchUserMissions = async () => {
+      if (auth.currentUser) {
+        const db = getFirestore();
+        const q = query(collection(db, "missions"), where("createdBy", "==", auth.currentUser.uid));
+        try {
+          const querySnapshot = await getDocs(q);
+          const missions = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setUserMissions(missions);
+        } catch (error) {
+          console.error("Fel vid hämtning av uppdrag: ", error);
+        }
+      }
+    };
+    fetchUserMissions();
+  }, [auth.currentUser]);
+  
   
 
-
-  const handleBack = () => {
-    navigate(-1);
-  };
 
   const handleSignOut = () => {
     signOut(auth).then(() => {
       // Framgångsrik utloggning, omdirigera till inloggningssidan eller startsidan
-      navigate('/login');
+      navigate('/LoginRegister');
     }).catch((error) => {
       // Hantera eventuella fel här
       console.error("Utloggningsfel: ", error);
@@ -100,6 +112,11 @@ const Profil = () => {
     }
 };
 
+const navigateToMission = (mission) => {
+  console.log("Navigating with mission:", mission);
+  navigate('/play', { state: { mission } });
+};
+
 
 
   const navigateToChat = () => {
@@ -107,9 +124,8 @@ const Profil = () => {
   };
 
   return (
+    <div>
     <div className="profil-container">
-      <button onClick={handleBack} className="back-button">+</button>
-      <button onClick={handleSignOut} className="log-out-button">Logga Ut</button>
       <div 
         className="profile-circle" 
         onClick={triggerFileInput} 
@@ -124,6 +140,7 @@ const Profil = () => {
         {editMode ? (
         <>
           <input 
+            className="edit-user"
             type="text" 
             value={newUsername} 
             onChange={(e) => setNewUsername(e.target.value)} 
@@ -134,7 +151,6 @@ const Profil = () => {
       ) : (
         <>
           <p className="usernamea">{username}</p>
-          <button onClick={() => setEditMode(true)}>Redigera användarnamn</button>
         </>
       )}
       <div className="ratings-container">
@@ -146,15 +162,23 @@ const Profil = () => {
       <p className="betyg-label">+ 10p</p>
       <hr className='profile-hr'/>
       <p className="category">YOUR MISSIONS</p>
-        {userMissions.map((mission, index) => (
-        <p key={index}>{mission}</p> // Visa varje uppdrag
-        ))}
+    {userMissions.map((mission, index) => (
+      <p className="mission-item" key={index} onClick={() => navigateToMission(mission)}>{mission.titles}</p> // Lägg till onClick event här
+    ))}
       <hr className='profile-hr'/>
       <p className="category">ONGOING</p>
       <hr className='profile-hr'/>
-      <p className="category">IN QUE</p>
-      <hr className='profile-hr'/>
+<p className="category">IN QUE</p>
+
+<hr className='profile-hr'/>
+
       <p className="category">DONE</p>
+      <div className='scroll-list'>
+          <button className="edit" onClick={() => setEditMode(true)}>Edit</button>
+         <button className="edit-profile-name" onClick={() => setEditMode(true)}>Redigera användarnamn</button>
+          <button className="log-out-button" onClick={handleSignOut} >Logga Ut</button>
+      </div>
+    </div>
     </div>
   );
 };

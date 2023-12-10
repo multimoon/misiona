@@ -1,0 +1,302 @@
+
+
+
+
+
+.create-mission-container {
+  color: #e5e5e5;
+  max-width: 700px;
+  margin: auto;
+}
+
+
+.form-form {
+  margin: auto;
+  margin-inline: 5%;
+  max-width: 800px;
+
+}
+
+
+
+
+
+.create-x {
+  position: absolute;
+  left: 58px;
+  top: 36px;
+  cursor: pointer;
+  color: white;
+  font-size: 35px;
+  rotate: 45deg;
+  z-index: 20;
+}
+
+
+
+
+
+.uppdrag {
+  color: #ffffff; /* Svart textfärg */
+  font-size: 23px;
+  letter-spacing: 3px;  
+  margin-top: 100px;
+  padding-top: -40px;
+  padding-bottom: 45px;
+  padding-left: -45%;
+  width: 88.5%;
+  margin-left: 30px;
+}
+
+  .create-hr {
+    margin: 60px 10px;
+    height: 1px; /* Hälften av standardhöjden, som ofta är 2px */
+    opacity: 0.04; /* 50% transparens */
+    background-color: rgb(255, 255, 255);
+  }
+  
+  label {
+    text-align: center;
+    font-size: 19px;
+    font-weight: bolder;
+    margin-top: 30px;
+  }
+
+
+  .checkbox-container {
+    margin-top: 50px;
+    margin-left: 30px;
+    cursor: pointer;
+  
+  
+  }
+
+  label.checkboxtext {
+    font-size: 18px;
+    font-weight: normal;
+    margin-left: 15px;
+  }
+
+
+
+
+
+
+
+
+
+.create-textarea1 {
+  margin-bottom: 30px;
+  margin-inline: 60px;
+  padding-top: 20px;
+  padding-left: 50px;
+  padding-right: 50px;
+  height: 40px;
+  background-color: #020e18;
+  color: #e5e5e5;
+  border-inline: 1px solid #00000000;
+  border-top: 1px solid #00000000;
+  font-size: 15px;
+  border-top: 0.1px solid #ffffff;
+  border-bottom: 0.1px solid #ffffff;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  resize: none; /* Hindrar användaren från att manuellt ändra storleken */
+  overflow: hidden; /* Håller innehållet inom ramarna av textarea */
+  transition: background-color 0.3s, border-color 0.2s; /* Lägg till en övergångseffekt */
+}
+.create-textarea1:hover {
+  background-color: rgba(202, 202, 202, 0.03);
+  border-bottom: 0.5px solid #ffffff00;
+  border-top: 0.5px solid #ffffff00;
+}
+
+
+.create-textarea {
+  margin-inline: 60px;
+  padding-top: 20px;
+  padding-left: 50px;
+  padding-right: 50px;
+  height: 40px;
+  margin-top: 25px;
+  background-color: #020e18;
+  color: #e5e5e5;
+  border-inline: 1px solid #00000000;
+  border-top: 1px solid #00000000;
+  font-size: 15px;
+  border-top: 0.1px solid #ffffff;
+  border-bottom: 0.1px solid #ffffff;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  resize: none; /* Hindrar användaren från att manuellt ändra storleken */
+  overflow: hidden; /* Håller innehållet inom ramarna av textarea */
+  transition: background-color 0.3s, border-color 0.2s; /* Lägg till en övergångseffekt */
+}
+.create-textarea:hover {
+  background-color: #031424;
+  border-bottom: 0.5px solid #ffffff00;
+  border-top: 0.5px solid #ffffff00;
+}
+
+
+.delmål {
+    padding-top: 20px;
+    padding-left: 20px;
+    margin: 20px 30px 0 30px;
+    height: 40px;
+    background-color: #082744;
+    color: #e5e5e5;
+    border-inline: 1px solid #00000000;
+    border-top: 1px solid #00000000;
+    font-size: 15px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    border-bottom: 0.5px solid #ffffff8a;
+    resize: none; /* Hindrar användaren från att manuellt ändra storleken */
+    overflow: hidden; /* Håller innehållet inom ramarna av textarea */
+    min-height: 10px; /* Start höjd */
+    transition: background-color 0.5s, border-color 0.3s;; /* Lägg till en övergångseffekt */
+  }
+  
+  .delmål:hover {
+    background-color: rgba(202, 202, 202, 0.03);
+    border-radius: 5px;
+    border-bottom: 0.2px solid #91919127;
+  }
+
+  .static-delmål {
+    width: 90%;
+    margin-left: 35px;
+    line-height: 30px;
+    margin-bottom: -25px;
+    margin-top: 30px;
+    font-style: italic;
+    font-size: 16px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  }
+
+  /* Stil för gul text */
+  .yellow-text {
+    color: #FFD700; /* Gul färg */
+  }
+
+.tids-resultat {
+  text-align: center;
+  cursor: default;
+  margin-top: -20px;
+  margin-bottom: 10px;
+}
+
+.timethree {
+  display: flex;
+  justify-content: center;
+}
+
+
+  .tid {
+    align-items: center;
+    margin-top: 20px;
+    margin-right: -10px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    background-color: transparent; /* Genomskinlig bakgrund */
+    border: 2px solid #FFD700; /* 2px border med angiven färg */
+    color: #FFD700; /* Svart textfärg */
+    padding: 10px 28px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s; /* Lägg till en övergångseffekt */
+  }
+  .tid:hover {
+    background-color: #FFD700; /* Bakgrundsfärg vid hover */
+    color: #fff; /* Vit textfärg vid hover */
+  }
+
+  .close {
+    margin-top: 17px;
+    margin-left: 25px;
+    border: #000000;
+    color: white;
+    background-color: #00000000;
+    font-size: 15px;
+    font-weight: normal;
+    cursor: pointer;
+
+  }
+
+  .close:hover {
+    background-color: #00000000;
+    color: #fff; /* Vit textfärg vid hover */
+    font-weight: bolder;
+  }
+    
+.create-mission-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+
+
+  .create-mission-container input[type='range'] {
+    margin: 50px 30px 35px 30px;
+    padding: 0px 0px;
+    cursor: pointer;
+    height: 5px;
+  }
+  
+ 
+  
+
+  /* Wrapper för slider och dess label */
+  .slider-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+
+  .sek-cost {
+    margin-top: 7px;
+    color: green; /* Gör texten grön */
+    font-size: 18px; /* Justera storleken efter behov */
+    font-weight: normal;
+    margin-bottom: 25px;
+    margin-top: 10px;
+
+  }
+  
+
+  .starta {
+    width: 90%;
+    margin-top: 10px;
+    margin-left: 19px;
+    margin-bottom: 70px;
+    background-color: transparent; /* Genomskinlig bakgrund */
+    border: 0.5px solid #FFD700; /* 2px border med angiven färg */
+    color: #FFD700; /* Svart textfärg */
+    padding: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    transition: background-color 0.3s, color 0.3s; /* Lägg till en övergångseffekt */
+  }
+
+  .starta:hover {
+    background-color: #ffd900df; /* Bakgrundsfärg vid hover */
+    color: #fff; /* Vit textfärg vid hover */
+  }
+
+
+
+
+  /* Dölja scrollbaren för WebKit-baserade webbläsare */
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Dölja scrollbaren för Firefox */
+* {
+  scrollbar-width: none;
+}
+
+/* För att säkerställa att innehållet fortfarande är skrollbart */
+* {
+  -ms-overflow-style: none;  /* För Internet Explorer och Edge */
+}
+

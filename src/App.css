@@ -1,20 +1,3 @@
-/* Ta bort all standard-styling */
-.App {
-  text-align: center;
+body {
+  background-color: #031422;
 }
-
-/* Dölja scrollbaren för WebKit-baserade webbläsare */
-*::-webkit-scrollbar {
-  display: none;
-}
-
-/* Dölja scrollbaren för Firefox */
-* {
-  scrollbar-width: none;
-}
-
-/* För att säkerställa att innehållet fortfarande är skrollbart */
-* {
-  -ms-overflow-style: none;  /* För Internet Explorer och Edge */
-}
-

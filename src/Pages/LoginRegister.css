@@ -1,0 +1,109 @@
+.logreg {
+  padding-top: 5%;
+
+}
+.countainer {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  .reg-form {
+    max-width: 600px;
+    margin: 0 50px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: auto;
+  }
+  
+  input[type="email"],
+  input[type="password"],
+  input[type="text"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .login-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px auto;
+    border: none;
+    border-radius: 5px;
+    background-color: #5cb85c;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+
+  .login-button:hover {
+    background-color: #4cae4c;
+  }
+  
+  .tillbaka-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px auto;
+    border: none;
+    border-radius: 5px;
+    background-color: #969696;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  .tillbaka-button:hover {
+    background-color: #6b6b6b;
+  }
+
+
+
+  
+  .login-button1 {
+    background-color: #5bc0de;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px auto;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .login-button1:hover {
+    background-color: #31b0d5;
+  }
+  
+  /* Extra styling för att växla mellan inloggning och registrering */
+  .toggle-button {
+    background-color: #f0ad4e;
+    color: white;
+  }
+  
+  .toggle-button:hover {
+    background-color: #ec971f;
+  }
+  
+  /* Tillbaka-knapp */
+  .back-button {
+    background-color: #d9534f;
+  }
+  
+  .back-button:hover {
+    background-color: #c9302c;
+  }
+  
+  /* Layoutjusteringar */
+  input, button {
+    box-sizing: border-box;
+  }
+  
+
+  

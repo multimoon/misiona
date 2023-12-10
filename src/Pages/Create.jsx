@@ -1,23 +1,26 @@
 import React, { useState, useRef } from 'react';
 import './Create.css';
 import { useNavigate } from 'react-router-dom';
-import { getAuth } from 'firebase/auth';
 import { getFirestore, doc, getDoc, updateDoc, collection, addDoc } from 'firebase/firestore';
+import useAuth from '../hooks/useAuth'; // Importera useAuth
+import { usePoints } from '../hooks/PointsContext';
+
 
 const Create = ({ updatePoints }) => {
   const navigate = useNavigate();
-  const auth = getAuth();
-  const [description, setDescription] = useState('');
+  const { user } = useAuth();
+  const { updateUserPoints } = usePoints(); // Lägg till detta
+  const [titles, setTitles] = useState('');
   const [details, setDetails] = useState('');
   const [conditions, setConditions] = useState('');
   const [automaticApproval, setAutomaticApproval] = useState(false);
   const [milestone, setMilestone] = useState(false);
   const [milestoneText, setMilestoneText] = useState('');
-  const [points, setPoints] = useState(100);
-  const [users, setUsers] = useState(100);
-  const [userPoints, setUserPoints] = useState(1000);
+  const [points, setPoints] = useState(1);
+  const [users, setUsers] = useState(10);
 
-  const descriptionRef = useRef(null);
+
+  const titlesRef = useRef(null);
   const detailsRef = useRef(null);
   const conditionsRef = useRef(null);
 
@@ -25,9 +28,6 @@ const Create = ({ updatePoints }) => {
   const [hoursCount, setHoursCount] = useState(0);
   const [daysCount, setDaysCount] = useState(0);
 
-  const handleBackToGame = () => {
-    navigate('/game');
-  };
 
   const autoGrow = (element) => {
     element.current.style.height = "10px";
@@ -59,73 +59,75 @@ const Create = ({ updatePoints }) => {
     ? 'Tid' 
     : `${daysCount > 0 ? `${daysCount} dagar ` : ''}${hoursCount > 0 ? `${hoursCount} timmar ` : ''}${minutesCount > 0 ? `${minutesCount} minuter` : ''}`;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const totalCost = points * users;
-  
-    const challengeData = {
-      description,
-      details,
-      conditions,
-      points,
-      users,
-      time: `${daysCount}d ${hoursCount}h ${minutesCount}m`,
-      createdBy: auth.currentUser ? auth.currentUser.uid : null,
-    };
-  
-    const db = getFirestore();
-    if (auth.currentUser) {
-      const userRef = doc(db, "users", auth.currentUser.uid);
-  
-      try {
-        const docSnap = await getDoc(userRef);
-        if (docSnap.exists()) {
-          const currentUserPoints = docSnap.data().points;
-          if (currentUserPoints >= totalCost) {
-            await updateDoc(userRef, { points: currentUserPoints - totalCost });
-            const challengesRef = collection(db, "challenges");
-            await addDoc(challengesRef, challengeData);
-  
-            setUserPoints(currentUserPoints - totalCost);
-            updatePoints(currentUserPoints - totalCost);
-            navigate('/game');
-          } else {
-            alert('Du har inte tillräckligt med poäng för att skapa denna utmaning.');
-          }
-        } else {
-          console.log("Användardokumentet finns inte");
-        }
-      } catch (error) {
-        console.error("Fel vid uppdatering av användarpoäng: ", error);
-      }
-    } else {
-      console.log("Ingen användare är inloggad.");
-    }
-  };
 
-  const goToProfile = () => {
-    navigate('/profil');
-  };
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      const totalCost = points * users;
+    
+      const missionData = {
+        titles,
+        details,
+        conditions,
+        points,
+        users,
+        time: `${daysCount}d ${hoursCount}h ${minutesCount}m`,
+        createdBy: user ? user.uid : null, // Använd user från useAuth
+      };
+    
+      const db = getFirestore();
+      if (user) {
+        const userRef = doc(db, "users", user.uid); // Använd user.uid från useAuth
+    
+        try {
+          const docSnap = await getDoc(userRef);
+          if (docSnap.exists()) {
+            const currentUserPoints = docSnap.data().points;
+            if (currentUserPoints >= totalCost) {
+              await updateDoc(userRef, { points: currentUserPoints - totalCost });
+              const missionsRef = collection(db, "missions");
+              await addDoc(missionsRef, missionData);
+        
+              updateUserPoints(currentUserPoints - totalCost); // Uppdatera poäng direkt här
+              navigate('/');
+            } else {
+              alert('Du har inte tillräckligt med poäng för att skapa denna utmaning.');
+            
+            }
+          } else {
+            console.log("Användardokumentet finns inte");
+          }
+        } catch (error) {
+          console.error("Fel vid uppdatering av användarpoäng: ", error);
+        }
+      } else {
+        console.log("Ingen användare är inloggad.");
+      }
+    };
+
+
+
+
+
 
 
   return (
-    <div className="create-challenge-container">
-      <div className="blue-circle" onClick={goToProfile}></div> {/* Grön cirkel */}
-      <div className="create-x" onClick={handleBackToGame}>+</div>
-      <form onSubmit={handleSubmit}>
-        <label className='uppdrag'>Uppdrag</label>
+    <div className="create-mission-container">
+
+      <form className='form-form' onSubmit={handleSubmit}>
+
+        <label className='uppdrag'>MISSION</label>
         <textarea className='create-textarea1'
-          ref={descriptionRef}
+          ref={titlesRef}
           placeholder="Gå en promenad"
-          value={description}
+          value={titles}
           onChange={(e) => {
-            setDescription(e.target.value);
-            autoGrow(descriptionRef);
+            setTitles(e.target.value);
+            autoGrow(titlesRef);
           }}
           rows={1}
         />
 
-        <label htmlFor="details">Beskrivning</label>
+        <label htmlFor="details">DESCRIPTION</label>
         <textarea className='create-textarea'
           ref={detailsRef}
           placeholder="Gå en 30 minuters promenad"
@@ -142,7 +144,7 @@ const Create = ({ updatePoints }) => {
 
 
 
-        <label htmlFor="conditions">Villkor</label>
+        <label htmlFor="conditions">CONDITIONS</label>
         <textarea className='create-textarea'
           ref={conditionsRef}
           placeholder="Skriv om din promenad när du är klar"
@@ -154,7 +156,7 @@ const Create = ({ updatePoints }) => {
           rows={0}
         />
         <br></br>
-        <div className="checkbox-container-auto">
+        <div className="checkbox-container">
 
           <input
             type="checkbox"
@@ -168,7 +170,7 @@ const Create = ({ updatePoints }) => {
 
 
             
-          <div className="checkbox-container-part">
+        <div className="checkbox-container">
           <input
             type="checkbox"
             id="milestone"
@@ -178,15 +180,16 @@ const Create = ({ updatePoints }) => {
           <label className="checkboxtext">Delmål</label>
         </div>
 
-        {/* Konditionell rendering för extra textareas */}
         {milestone && (
           <>
             <textarea
+              className='delmål'
               value={milestoneText}
               onChange={(e) => setMilestoneText(e.target.value)}
               placeholder="Beskriv delmålet här"
+              
             />
-            <p className="static-text">
+            <p className="static-delmål">
               *Skriv en uppgift som måste uppfyllas och godkännas innan slutresultatet kan skickas in.
             </p>
           </>
@@ -201,10 +204,10 @@ const Create = ({ updatePoints }) => {
         
         <div> 
           <div className='timethree'>
-                <button className="tid" type="button" onClick={() => handleButtonClick('dagar')}>Dagar</button>
-                <button className="tid" type="button" onClick={() => handleButtonClick('timmar')}>Timmar</button>
-                <button className="tid" type="button" onClick={() => handleButtonClick('minuter')}>Minuter</button>
-                <button className="close" type="button" onClick={() => handleButtonClick('nollställ')}>X</button>
+                <button type="button" className="tid" onClick={() => handleButtonClick('dagar')}>Dagar</button>
+                <button type="button" className="tid" onClick={() => handleButtonClick('timmar')}>Timmar</button>
+                <button type="button" className="tid" onClick={() => handleButtonClick('minuter')}>Minuter</button>
+                <button type="button" className="close" onClick={() => handleButtonClick('nollställ')}>X</button>
 
           </div>
         </div> 

@@ -1,10 +1,10 @@
 .chat-container {
     display: flex;
     flex-direction: column;
-    padding: 0 10px;
+    padding: 10px 10px;
     max-width: 600px; /* Justera bredden efter behov */
-    margin-top: -50.1px;
     position: relative; /* Positionera relativt för input-container */
+    
   }
 
 
@@ -37,6 +37,7 @@
     padding: 10px;
     border-radius: 20px;
     word-wrap: break-word;
+    color: white;
   }
   
   .sender {

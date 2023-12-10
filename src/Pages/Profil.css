@@ -1,16 +1,16 @@
 .profil-container {
-  margin-top: 80px;
+  padding-top: 80px;
   width: 77%;
   margin-left: 11%;
 }
 
-  .back-button {
+  .back-button-profile {
     position: absolute;
     background-color: rgba(255, 255, 255, 0);
     border-color: transparent;
     color: white;
-    top: 40px;
-    left: 40px;
+    top: 30px;
+    left: 60px;
     cursor: pointer;
     rotate: 45deg;
     font-size: 30px;
@@ -24,7 +24,9 @@
     border-radius: 50%;
     background-color: rgba(221, 221, 221, 0.774);
     background-size: cover;
-    margin-left: 58px;
+    margin-left: 50px;
+    display: flex;
+    left: 0;
     margin-top: 40px;
     margin-bottom: 8px;
 
@@ -117,4 +119,46 @@
 
   
 
+
+  .mission-item {
+    color: white;
+    margin-left: 14%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+
+  }
+
+
+
+
+  .scroll-list {
+    border: rgba(255, 255, 255, 0.202) solid 1px;
+    width: 80%;
+    margin: auto;
+    padding: 0;
+    overflow-x: auto; /* Tillåter horisontell scrollning */
+    white-space: nowrap; /* Hindrar innehållet från att brytas ned på nya rader */
+  }
   
+  .edit-profile {
+    display: inline-block; /* Gör så att elementen arrangeras horisontellt */
+    margin-left: 4%;
+  }
+  
+  .edit-profile-name {
+    display: inline-block; /* Gör så att elementen arrangeras horisontellt */
+    margin-left: 4%;
+  }
+  
+  .log-out-button {
+    display: inline-block; /* Gör så att elementen arrangeras horisontellt */
+    margin-left: 8%;
+  }
+  
+
+.edit-user {
+  position: absolute;
+  width: 20px;
+
+}
+

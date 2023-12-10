@@ -1,4 +1,13 @@
 
+.game-container {
+  position: relative;
+  width: 100%;
+  max-height: 100%;
+  height: 100%;
+  
+}
+
+
 .yellow-circle {
   width: 15px; /* Storlek på cirkeln */
   height: 15px;
@@ -7,45 +16,40 @@
   border-radius: 50%;
   background-color: rgba(0, 128, 0, 0);
   position: fixed;
-  top: 48px;
-  right: 49px;
+  top: 51px;
+  right: 100px;
   cursor: pointer;
   z-index: 500;
 }
 
-.userpoints {
-
+.userpoint-game {
   position: fixed;
-  top: 51px;
-  right: 40%;
+  top: 5.2%;
+  right: 47%;
   color: white;
   cursor: pointer;
   z-index: 500;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 
-.game-container {
-  position: relative;
-  width: 100vw;
-  height: 105vh;
-  overflow: hidden;
-  margin-top: -100px;
-}
+
 
 .plus-icon {
   position: fixed;
   top: 43px;
-  left: 32.5px;
+  left: 89px;
   cursor: pointer;
   color: white;
-  font-size: 25px;
+  font-size: 27px;
   z-index: 1000;
 }
 
 
 
 
-.game-challenge-item {
+.game-mission-item {
   opacity: 0;
   position: absolute;
 
@@ -74,13 +78,13 @@
   }
 }
 
-.game-challenge-item:hover {
+.game-mission-item:hover {
   animation-play-state: paused; /* Pause the animation on hover */
   z-index: 100; /* Bring to front on hover */
   
 }
 
-.game-challenge-item:not(:hover) {
+.game-mission-item:not(:hover) {
   filter: blur(2px); /* Blur other items */
 }
 
@@ -96,7 +100,7 @@
   background-color: rgb(255, 255, 255);
 }
 
-.game-challenge-item:hover .game-circle {
+.game-mission-item:hover .game-circle {
   animation: glow 2s ease-in-out forwards;
 }
 
@@ -114,18 +118,18 @@
 }
 
 
-.game-challenge-info {
+.game-mission-info {
   margin-top: -31px;
   margin-left: 20px;
   display: flex;
 }
 
-.game-challenge-description {
+.game-mission-title {
   color: white;
   font-weight: bold;
 }
 
-.game-challenge-points {
+.game-mission-points {
   color: green;
   margin-left: 10px;
   white-space: nowrap;
