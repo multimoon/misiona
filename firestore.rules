@@ -1,0 +1,11 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Tillåter alla att läsa alla dokument, men endast inloggade användare kan skriva
+    match /{document=**} {
+      allow read: if true; // Alla användare kan läsa
+      allow write: if request.auth != null; // Endast inloggade användare kan skriva
+    }
+  }
+}
