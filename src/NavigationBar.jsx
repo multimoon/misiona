@@ -11,7 +11,7 @@ const NavigationBar = ({ user }) => {
 
 
   const NavBarBack = () => {
-    if (location.pathname === '/') {
+    if (location.pathname === '/game') {
       navigate('/create'); // Navigera till create.jsx om användaren är på game.jsx
     } else {
       navigate(-1); // Annars navigera ett steg tillbaka

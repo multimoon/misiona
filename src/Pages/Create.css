@@ -5,16 +5,15 @@
 
 .create-mission-container {
   color: #e5e5e5;
-  max-width: 700px;
+  max-width: 900px;
+  display: flex;
+  justify-content: center;
   margin: auto;
 }
 
 
 .form-form {
-  margin: auto;
-  margin-inline: 5%;
-  max-width: 800px;
-
+  width: 80%;
 }
 
 
@@ -35,105 +34,89 @@
 
 
 
-
-.uppdrag {
-  color: #ffffff; /* Svart textfärg */
-  font-size: 23px;
-  letter-spacing: 3px;  
-  margin-top: 100px;
-  padding-top: -40px;
-  padding-bottom: 45px;
-  padding-left: -45%;
-  width: 88.5%;
-  margin-left: 30px;
-}
-
   .create-hr {
-    margin: 60px 10px;
+    margin: 50px -20px;
     height: 1px; /* Hälften av standardhöjden, som ofta är 2px */
     opacity: 0.04; /* 50% transparens */
     background-color: rgb(255, 255, 255);
+
+  }
+
+  label {
+    display: grid;
+    text-align: center;
+    font-size: 21px;
+    font-weight: bolder;
+    margin-top: 30px;
+    font-stretch: semi-expanded;
+    letter-spacing: 1px;
+  }
+
+  .maintext1 {
+    margin-top: 100px;
+    color: #ffffff; /* Svart textfärg */
+
+  }
+
+  .maintext2 {
+    margin-top: 50px;
+
+  }
+
+  .maintext3 {
+    margin-top: 0px;
   }
   
-  label {
+
+
+  h5 {
     text-align: center;
     font-size: 19px;
     font-weight: bolder;
-    margin-top: 30px;
+    margin-top: 10px;
+    
   }
 
 
   .checkbox-container {
-    margin-top: 50px;
-    margin-left: 30px;
-    cursor: pointer;
-  
-  
+    margin-top: 10px;
+    margin-left: 20px;
+    display: flex;
+
   }
 
-  label.checkboxtext {
-    font-size: 18px;
-    font-weight: normal;
-    margin-left: 15px;
-  }
+          h4.checkboxtext {
+            margin-top: -1px;
+            margin-left: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            display: grid;
+          }
 
 
 
-
-
-
-
-
-
-.create-textarea1 {
-  margin-bottom: 30px;
-  margin-inline: 60px;
-  padding-top: 20px;
-  padding-left: 50px;
-  padding-right: 50px;
-  height: 40px;
-  background-color: #020e18;
-  color: #e5e5e5;
-  border-inline: 1px solid #00000000;
-  border-top: 1px solid #00000000;
-  font-size: 15px;
-  border-top: 0.1px solid #ffffff;
-  border-bottom: 0.1px solid #ffffff;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  resize: none; /* Hindrar användaren från att manuellt ändra storleken */
-  overflow: hidden; /* Håller innehållet inom ramarna av textarea */
-  transition: background-color 0.3s, border-color 0.2s; /* Lägg till en övergångseffekt */
-}
-.create-textarea1:hover {
-  background-color: rgba(202, 202, 202, 0.03);
-  border-bottom: 0.5px solid #ffffff00;
-  border-top: 0.5px solid #ffffff00;
-}
-
-
+          
 .create-textarea {
-  margin-inline: 60px;
   padding-top: 20px;
-  padding-left: 50px;
-  padding-right: 50px;
+  padding-left: 30px;
+  padding-right: 30px;
   height: 40px;
   margin-top: 25px;
+  margin-bottom: 25px;
   background-color: #020e18;
   color: #e5e5e5;
   border-inline: 1px solid #00000000;
-  border-top: 1px solid #00000000;
   font-size: 15px;
-  border-top: 0.1px solid #ffffff;
-  border-bottom: 0.1px solid #ffffff;
+  border-top: 1px solid #ffffff;
+  border-bottom: 1px solid #ffffff;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   resize: none; /* Hindrar användaren från att manuellt ändra storleken */
   overflow: hidden; /* Håller innehållet inom ramarna av textarea */
-  transition: background-color 0.3s, border-color 0.2s; /* Lägg till en övergångseffekt */
+  transition: background-color 0.2s, border-color 0.2s; /* Lägg till en övergångseffekt */
 }
 .create-textarea:hover {
-  background-color: #031424;
-  border-bottom: 0.5px solid #ffffff00;
-  border-top: 0.5px solid #ffffff00;
+  background-color: rgba(202, 202, 202, 0.059);
+
 }
 
 
@@ -180,7 +163,7 @@
 .tids-resultat {
   text-align: center;
   cursor: default;
-  margin-top: -20px;
+  margin-top: 20px;
   margin-bottom: 10px;
 }
 
@@ -195,13 +178,14 @@
     margin-top: 20px;
     margin-right: -10px;
     margin-left: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     background-color: transparent; /* Genomskinlig bakgrund */
-    border: 2px solid #FFD700; /* 2px border med angiven färg */
+    border: 3px solid #FFD700; /* 2px border med angiven färg */
     color: #FFD700; /* Svart textfärg */
-    padding: 10px 28px;
+    padding: 10px 8%;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 15px;
     transition: background-color 0.3s, color 0.3s; /* Lägg till en övergångseffekt */
   }
   .tid:hover {
@@ -210,7 +194,6 @@
   }
 
   .close {
-    margin-top: 17px;
     margin-left: 25px;
     border: #000000;
     color: white;
@@ -227,15 +210,12 @@
     font-weight: bolder;
   }
     
-.create-mission-container form {
-    display: flex;
-    flex-direction: column;
-  }
+
   
 
 
   .create-mission-container input[type='range'] {
-    margin: 50px 30px 35px 30px;
+    margin: 10px 8% 35px 8%;
     padding: 0px 0px;
     cursor: pointer;
     height: 5px;
@@ -244,7 +224,6 @@
  
   
 
-  /* Wrapper för slider och dess label */
   .slider-container {
     display: flex;
     flex-direction: column;
@@ -256,19 +235,17 @@
     color: green; /* Gör texten grön */
     font-size: 18px; /* Justera storleken efter behov */
     font-weight: normal;
-    margin-bottom: 25px;
+    margin-bottom: 0px;
     margin-top: 10px;
 
   }
   
 
   .starta {
-    width: 90%;
-    margin-top: 10px;
-    margin-left: 19px;
-    margin-bottom: 70px;
+    width: 100%;
+    margin-bottom: 10%;
     background-color: transparent; /* Genomskinlig bakgrund */
-    border: 0.5px solid #FFD700; /* 2px border med angiven färg */
+    border: 2px solid #FFD700; /* 2px border med angiven färg */
     color: #FFD700; /* Svart textfärg */
     padding: 18px;
     border-radius: 5px;

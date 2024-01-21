@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useRef, useEffect } from 'react'; 
 import { useNavigate, useLocation } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, doc, getDoc, collection, addDoc, getDocs, updateDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, collection, addDoc, getDocs, updateDoc, query, where } from 'firebase/firestore';
 import './Play.css';
 import { usePoints } from '../hooks/PointsContext'; // Använda PointsContext
 
@@ -44,7 +44,6 @@ const Play = () => {
 
 
 
-  console.log("Mission:", mission);
 
 // Funktion för att navigera till en användares profil
 const goToUserProfile = (userId) => {
@@ -56,57 +55,53 @@ const goToUserProfile = (userId) => {
 };
 
 
+const loadMotiveringar = useCallback(async () => {
+  const db = getFirestore();
+  // Använd query för att hämta motiveringar från en separat samling
+  const motiveringQuery = query(collection(db, "motiveringar"), where("missionId", "==", mission.id));
 
-  const loadMotiveringar = useCallback(async () => {
-    const db = getFirestore();
-    const missionRef = doc(db, "missions", mission.id);
-    const motiveringCollectionRef = collection(missionRef, "motiveringar");
+  try {
+    const querySnapshot = await getDocs(motiveringQuery);
+    let loadedMotiveringar = [];
+    const loadedResponses = {};
+    let updatedAcceptedMotiverings = {};
+    let updatedRewardedMotiverings = {};
 
-    try {
-      const querySnapshot = await getDocs(motiveringCollectionRef);
-      let loadedMotiveringar = [];
-      const loadedResponses = {};
-      let updatedAcceptedMotiverings = {};
-      let updatedRewardedMotiverings = {};
+    for (let doc of querySnapshot.docs) {
+      const motiveringId = doc.id;
+      const motiveringData = { id: motiveringId, ...doc.data(), createdAt: doc.data().createdAt.toDate() };
 
-      for (let doc of querySnapshot.docs) {
-        const motiveringId = doc.id;
-        const motiveringData = { id: motiveringId, ...doc.data(), createdAt: doc.data().createdAt.toDate() };
+      // Hantera status och uppdatera state
+      motiveringData.status = doc.data().status;
+      if (motiveringData.status === 'accepted') {
+        updatedAcceptedMotiverings[motiveringId] = true;
+      } else if (motiveringData.status === 'rewarded') {
+        updatedRewardedMotiverings[motiveringId] = true;
+      }
 
-        // Lägg till status i motiveringData
-        motiveringData.status = doc.data().status;
+      loadedMotiveringar.push(motiveringData);
 
-        // Uppdatera state baserat på status
-        if (motiveringData.status === 'accepted') {
-          updatedAcceptedMotiverings[motiveringId] = true;
-        } else if (motiveringData.status === 'rewarded') {
-          updatedRewardedMotiverings[motiveringId] = true;
-        }
+      // Hantera kommentarer för varje motivering
+      // Notera: Om kommentarer också är en separat samling, behöver detta uppdateras
+      const commentsRef = collection(db, "motiveringar", motiveringId, "comments");
+      const commentsSnapshot = await getDocs(commentsRef);
+      const comments = [];
+      commentsSnapshot.forEach((commentDoc) => {
+        comments.push({ id: commentDoc.id, ...commentDoc.data(), createdAt: commentDoc.data().createdAt.toDate() });
+      });
 
-        loadedMotiveringar.push(motiveringData);
+      loadedResponses[motiveringId] = comments;
+    }
 
-              // Hämta kommentarer för varje motivering
-              const commentsRef = collection(missionRef, "motiveringar", motiveringId, "comments");
-              const commentsSnapshot = await getDocs(commentsRef);
-              const comments = [];
-              commentsSnapshot.forEach((commentDoc) => {
-                  comments.push({ id: commentDoc.id, ...commentDoc.data(), createdAt: commentDoc.data().createdAt.toDate() });
-              });
-
-              // Lagra kommentarer i loadedResponses
-              loadedResponses[motiveringId] = comments;
-          }
-
-          // Sortera motiveringarna i omvänd kronologisk ordning
-          loadedMotiveringar = loadedMotiveringar.sort((a, b) => b.createdAt - a.createdAt);
-          setMotiveringar(loadedMotiveringar);
-          setResponses(loadedResponses);
-          setAcceptedMotiverings(updatedAcceptedMotiverings);
-          setRewardedMotiverings(updatedRewardedMotiverings);
-        } catch (error) {
-        }
-      }, [mission.id]);  // Lägg till beroenden som påverkar loadMotiveringar här. Om det inte finns några, lämna listan tom.
-
+    loadedMotiveringar.sort((a, b) => b.createdAt - a.createdAt);
+    setMotiveringar(loadedMotiveringar);
+    setResponses(loadedResponses);
+    setAcceptedMotiverings(updatedAcceptedMotiverings);
+    setRewardedMotiverings(updatedRewardedMotiverings);
+  } catch (error) {
+    console.error("Fel vid hämtning av motiveringar: ", error);
+  }
+}, [mission.id]); // Använd mission.id som beroende
 
 
 
@@ -142,12 +137,6 @@ const goToUserProfile = (userId) => {
   }, [mission]);
 
 
-  useEffect(() => {
-    if (mission && mission.id) {
-      loadMotiveringar();
-    }
-  }, [mission, loadMotiveringar]);
-  
 
   
   useEffect(() => {
@@ -208,37 +197,36 @@ const goToUserProfile = (userId) => {
     }
   };
 
+  
   const handleSkickaIn = async () => {
     const nyMotivering = {
-      missionId: mission.id, // Lägg till uppdrags-ID
+      missionId: mission.id,
       text: motiveringRef.current.value,
       image: uploadedImage,
       username: loggedInUser.username,
       userImage: loggedInUser.profileImageUrl,
-      userId: auth.currentUser.uid,  // Inkludera användarens ID här
-      createdAt: new Date()
-  };
-  
-    const db = getFirestore();
-    const missionRef = doc(db, "missions", mission.id);
-    const motiveringCollectionRef = collection(missionRef, "motiveringar");
+      userId: auth.currentUser.uid,
+      createdAt: new Date(),
+      status: "in-que"
+    };
   
     try {
-      const docRef = await addDoc(motiveringCollectionRef, nyMotivering);
-      
-      // Lägg till den nya motiveringen i det lokala statet
+      const docRef = await addDoc(collection(db, "motiveringar"), nyMotivering);
+      console.log("Ny motivering skickad:", { ...nyMotivering, id: docRef.id });
+  
       setMotiveringar(prevMotiveringar => [
-          { ...nyMotivering, id: docRef.id, createdAt: nyMotivering.createdAt },
-          ...prevMotiveringar
+        { ...nyMotivering, id: docRef.id },
+        ...prevMotiveringar
       ]);
-
     } catch (error) {
+      console.error("Fel vid skickande av motivering:", error);
     }
   
     setUploadedImage(null);
     setUploadedFileName("");
-    motiveringRef.current.value = ""; // Clear the textarea
-};
+    motiveringRef.current.value = "";
+  };
+  
 
 
 const formatTimeSince = (date) => {
@@ -325,12 +313,11 @@ const countTotalApprovedMotiverings = () => {
 
 const handleAccept = async (motiveringId) => {
   const db = getFirestore();
-  const missionRef = doc(db, "missions", mission.id);
-  const motiveringRef = doc(missionRef, "motiveringar", motiveringId);
+  const motiveringRef = doc(db, "motiveringar", motiveringId); // Uppdaterad sökväg
 
   try {
     await updateDoc(motiveringRef, {
-      status: "accepted" // Uppdatera status till "accepted"
+      status: "accepted"
     });
 
     // Uppdatera lokal state
@@ -339,13 +326,15 @@ const handleAccept = async (motiveringId) => {
       [motiveringId]: true
     }));
   } catch (error) {
+    // Hantera fel här
+    console.error("Fel vid uppdatering av motivering:", error);
   }
 };
 
+
 const handleReward = async (motiveringId) => {
   const db = getFirestore();
-  const missionRef = doc(db, "missions", mission.id);
-  const motiveringRef = doc(missionRef, "motiveringar", motiveringId);
+  const motiveringRef = doc(db, "motiveringar", motiveringId); // Uppdaterad sökväg
 
   try {
     const motiveringDoc = await getDoc(motiveringRef);
@@ -384,6 +373,8 @@ const handleReward = async (motiveringId) => {
       }
     }
   } catch (error) {
+    // Hantera fel här
+    console.error("Fel vid uppdatering av motivering:", error);
   }
 };
 
@@ -410,16 +401,15 @@ const countRewardedMotiverings = () => {
     <div className="play-wrapper">
 
       <div className="play-container">
-        <div className="circle" style={{ backgroundImage: `url(${creatorInfo.profileImageUrl})` }} onClick={() => goToUserProfile(mission.createdBy)}></div>
-        <div className="mission-info">
-          <p className="mission-points">+ {mission.points} poäng</p>
+        <div className='top-play'>
+          <div className='topleft'>
+            <div className="circle" style={{ backgroundImage: `url(${creatorInfo.profileImageUrl})` }} onClick={() => goToUserProfile(mission.createdBy)}></div>
+            <p className="username">{creatorInfo.username}</p>
+          </div>
+            <p className="mission-points">+ {mission.points} poäng</p>
         </div>
 
 
-        <div className="username-rating-container">
-        <p className="username">{creatorInfo.username}</p>
-            <p className="rating">Betyg</p>
-        </div>
         <p className="mission-title">{mission.titles}</p>
         <p className="mission-details">{mission.details}</p>
         <div className="villkor-time-container">
@@ -438,6 +428,9 @@ const countRewardedMotiverings = () => {
         rows={0}
 
            />   
+          <p className="total-users">Accepted: {countTotalApprovedMotiverings()}/{mission.users}</p>
+
+
  
         <div className="play-checkbox-container-picture">
           <input
@@ -446,10 +439,9 @@ const countRewardedMotiverings = () => {
             checked={isImageAttached}
             onChange={handleImageCheckboxChange}
           />
-          <label className='bifoga-bild' htmlFor="attachImageCheckbox">Bifoga bild</label>
+          <h4 className='bifoga-bild' htmlFor="attachImageCheckbox">Bifoga bild</h4>
           {uploadedFileName && <span className="uploaded-file-name">{uploadedFileName}</span>}
         </div>
-        <p className="total-users"> {countTotalApprovedMotiverings()}/{mission.users}</p>
 
         <input
           type="file"
@@ -457,15 +449,22 @@ const countRewardedMotiverings = () => {
           style={{ display: "none" }}
           onChange={handleFileChange}
         />
+
+        
         <div className="play-checkbox-container">
           <input type="checkbox" id="checkbox" />
-          <label className="godkann" htmlFor="checkbox">Godkänn villkor</label>
+          <h4 className="godkann" htmlFor="checkbox">Godkänn villkor</h4>
+          
         </div>
+
+        
 
         <div className="status-submit">
           <p>Status</p>
-          <button className="skicka-in" onClick={handleSkickaIn}>SKICKA IN ▶</button>
+          <button className="skicka-in" onClick={handleSkickaIn}>SEND IN ▶</button>
         </div>
+
+
         <hr className="custom-hr" />
 
         {/* VÄNTAR DELTAR FÄRDIGA */}
@@ -473,7 +472,7 @@ const countRewardedMotiverings = () => {
 
         <div className="status-info">
             <p className='väntar' onClick={showAll}>{countWaitingMotiverings()} Väntar</p>
-            <p onClick={showAccepted}>{countAcceptedNotRewardedMotiverings()} Deltar</p>
+            <p className='deltar' onClick={showAccepted}>{countAcceptedNotRewardedMotiverings()} Deltar</p>
             <p className='klara' onClick={showRewarded}>{countRewardedMotiverings()} Klara</p>
         </div>
 
@@ -483,7 +482,10 @@ const countRewardedMotiverings = () => {
           <div key={motivering.id} className="motivering-item">
 
 
-        {/* Visa användarens profilbild och användarnamn */}
+
+        
+        
+        
         <div className="red-circle" style={{ backgroundImage: `url(${motivering.userImage})` }} onClick={() => goToUserProfile(motivering.userId)}></div>
         <div className="motivering-content">
           <div className="motivering-header">
@@ -514,10 +516,7 @@ const countRewardedMotiverings = () => {
           {viewMode === 'rewarded' ? 'Klar' : 'Belönad'}
         </span>
       )}
-
-                
-              
-            </div>
+</div>
       <hr className="comment-hr" />
       {showCommentBox[motivering.id] && (
             <>

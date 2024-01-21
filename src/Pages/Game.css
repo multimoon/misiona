@@ -58,6 +58,7 @@
   top: var(--start-top);
   animation-delay: var(--animation-delay);
   transition: background-color 0.3s ease-in-out;
+  cursor: pointer;
 
 }
 

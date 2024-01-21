@@ -1,8 +1,17 @@
+
+
+
+.chat-scale {
+  width: 100%;
+  max-width: 80%;
+  height: 100%;
+}
+
 .chat-container {
     display: flex;
     flex-direction: column;
     padding: 10px 10px;
-    max-width: 600px; /* Justera bredden efter behov */
+    max-width: 90vw; /* Justera bredden efter behov */
     position: relative; /* Positionera relativt för input-container */
     
   }

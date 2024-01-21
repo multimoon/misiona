@@ -6,7 +6,7 @@ import useAuth from '../hooks/useAuth'; // Importera useAuth
 import { usePoints } from '../hooks/PointsContext';
 
 
-const Create = ({ updatePoints }) => {
+const Create = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { updateUserPoints } = usePoints(); // Lägg till detta
@@ -115,46 +115,57 @@ const Create = ({ updatePoints }) => {
 
       <form className='form-form' onSubmit={handleSubmit}>
 
-        <label className='uppdrag'>MISSION</label>
-        <textarea className='create-textarea1'
-          ref={titlesRef}
-          placeholder="Gå en promenad"
-          value={titles}
-          onChange={(e) => {
-            setTitles(e.target.value);
-            autoGrow(titlesRef);
-          }}
-          rows={1}
-        />
 
-        <label htmlFor="details">DESCRIPTION</label>
-        <textarea className='create-textarea'
-          ref={detailsRef}
-          placeholder="Gå en 30 minuters promenad"
-          value={details}
-          onChange={(e) => {
-            setDetails(e.target.value);
-            autoGrow(detailsRef);
-          }}
-          rows={1}
-        />
+<label className='maintext1' >MISSION
+<textarea
+  className='create-textarea'
+  id="titles"
+  ref={titlesRef}
+  placeholder="Gå en promenad"
+  value={titles}
+  onChange={(e) => {
+    setTitles(e.target.value);
+    autoGrow(titlesRef);
+  }}
+  rows={1}
+/>
+</label>
+
+<label className='maintext2' >DESCRIPTION
+<textarea
+  className='create-textarea'
+  id="details"
+  ref={detailsRef}
+  placeholder="Gå en 30 minuters promenad"
+  value={details}
+  onChange={(e) => {
+    setDetails(e.target.value);
+    autoGrow(detailsRef);
+  }}
+  rows={1}
+/>
+</label>
 
 
 <hr className='create-hr' /> {/* Linje mellan "GE" och "TILL" */}
 
 
 
-        <label htmlFor="conditions">CONDITIONS</label>
-        <textarea className='create-textarea'
-          ref={conditionsRef}
-          placeholder="Skriv om din promenad när du är klar"
-          value={conditions}
-          onChange={(e) => {
-            setConditions(e.target.value);
-            autoGrow(conditionsRef);
-          }}
-          rows={0}
-        />
+<label className='maintext3' >CONDITIONS
+<textarea
+  className='create-textarea'
+  id="conditions"
+  ref={conditionsRef}
+  placeholder="Skriv om din promenad när du är klar"
+  value={conditions}
+  onChange={(e) => {
+    setConditions(e.target.value);
+    autoGrow(conditionsRef);
+  }}
+  rows={0}
+/>
+</label>
+
         <br></br>
         <div className="checkbox-container">
 
@@ -165,7 +176,7 @@ const Create = ({ updatePoints }) => {
             onChange={(e) => setAutomaticApproval(e.target.checked)}
           />
           
-          <label className="checkboxtext">Automatiskt godkännande</label>
+          <h4 className="checkboxtext">Automatiskt godkännande</h4>
           </div>
 
 
@@ -177,7 +188,7 @@ const Create = ({ updatePoints }) => {
             checked={milestone}
             onChange={(e) => setMilestone(e.target.checked)}
           />
-          <label className="checkboxtext">Delmål</label>
+          <h4 className="checkboxtext">Delmål</h4>
         </div>
 
         {milestone && (
@@ -216,8 +227,8 @@ const Create = ({ updatePoints }) => {
         <hr className='create-hr' /> {/* Linje mellan "GE" och "TILL" */}
 
 
-        <div className="slider-container"> {/* Wrapper för slider och label */}
-          <label className="yellow-text">GE</label> {/* Klass för att ändra färg */}
+        <div className="slider-container"> 
+          <h5 className="yellow-text">GE</h5> {/* Klass för att ändra färg */}
           <input
             type="range"
             min="1"
@@ -225,13 +236,13 @@ const Create = ({ updatePoints }) => {
             value={points}
             onChange={(e) => setPoints(e.target.value)}
           />
-          <label>{points} Poäng</label>
+          <h5>{points} Poäng</h5>
         </div>
 
         <hr className='create-hr' /> {/* Linje mellan "GE" och "TILL" */}
 
         <div className="slider-container"> {/* Liknande wrapper för den andra slidern */}
-          <label className="yellow-text">TILL</label> {/* Klass för att ändra färg */}
+          <h5 className="yellow-text">TILL</h5>
           <input
             type="range"
             min="1"
@@ -239,14 +250,14 @@ const Create = ({ updatePoints }) => {
             value={users}
             onChange={(e) => setUsers(e.target.value)}
           />
-          <label>{users} Användare</label>
+          <h5>{users} Användare</h5>
         </div>
 
         <hr className='create-hr' /> {/* Linje mellan "GE" och "TILL" */}
 
 
-        <label className='totalkostnad'>Total kostnad: {points * users} p</label>
-        <label className='sek-cost'>{(points * users / 100).toFixed(2)} KR</label>
+        <h5 className='totalkostnad'>Total kostnad: {points * users} p</h5>
+        <h5 className='sek-cost'>{(points * users / 100).toFixed(2)} KR</h5>
 
         <hr className='create-hr' /> {/* Linje mellan "GE" och "TILL" */}
 

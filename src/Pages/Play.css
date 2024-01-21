@@ -3,15 +3,7 @@
   justify-content: center; /* Centrera horisontellt */
   height: 100%; /* Ta upp hela skärmens höjd */
   width: 100%; /* Ta upp hela skärmens bredd */
-  padding-top: 120px;
-}
-
-.current-userpoints-play {
-  position: absolute;
-  top: 33px;
-  right: 99px;
-  font-size: 15px;
-  color: #e5e5e5;
+  padding-top: 90px;
 }
 
 
@@ -19,84 +11,59 @@
 .play-container {
   color: #e5e5e5;
   border-radius: 5px;
-  width: 60%;
+  width: 80%;
   max-width: 600px;
-  padding: 20px; /* Lägg till lite padding */
-  position: relative; /* För positionering av cirkeln och poäng */
+  overflow-wrap: break-word; /* Samma som word-wrap, men mer stöd */
 }
 
-
-
-.green-circle {
-  width: 15px; /* Storlek på cirkeln */
-  height: 15px;
-  border-radius: 50%;
-  border: 1px solid #ffffff;
-  background-color: rgba(0, 128, 0, 0); /* Grön färg */
-  position: absolute; /* Positionera cirkeln */
-  top: -52px; /* Justera position efter behov */
-  right: -30.5px;
-  cursor: pointer; /* Ändra muspekaren till en pekare */
+.top-play {
+  display: flex;
+  justify-content: space-between;
 }
 
+.topleft {
+  display: flex;
+  align-items: center;
+}
 
-
-.back-to-game {
-    position: absolute;
-    top: -60px;
-    left: -21px;
-    cursor: pointer;
-    rotate: 45deg;
-    font-size: 30px;
-    /* Ytterligare styling som behövs */
-  }
-
-
-
-  
   .circle {
-    position: absolute;
-    top: 19px;
-    left: 18px;
-    width: 35px; /* Exempelstorlek */
-    height: 35px;
+
+    width: 75px; /* Exempelstorlek */
+    height: 75px;
     border-radius: 50%;
     background-color: blue; /* Eller annan önskad färg */
     background-size: cover;
     background-position: center;
+    cursor: pointer;
   }
 
 
-  .username-rating-container {
-    display: flex;
-    align-items: center; /* Centrera elementen vertikalt */
-    margin-top: 20px; /* Justera utrymme över containern */
-    margin-left: 60px;
-  }
+
   
   .username {
-    margin-top: -12px;
-    margin-right: 20px; /* Utrymme mellan Username och Betyg */
+    font-weight: 900;
+    font-size: 21px;
+    margin-left: 10px;
+    margin-right: 10px; /* Utrymme mellan Username och Betyg */
     /* Ytterligare stil för användarnamnet */
   }
   
-  .rating {
-    margin-top: -12px;
-  }
+
   
   .mission-points {
-    position: absolute;
-    top: 8px;
-    right: 16.5px;
-    color: green;
-    font-size: 18px;
-    font-weight: bold;
+    color: rgb(212, 215, 24);
+    font-size: 22px;
+    font-weight: bolder;
+    justify-content: space-between;
+  }
+  .mission-points:hover {
+    color: #ffed28;
+    scale: 1.2;
   }
 
+
   .total-users {
-    position: absolute;
-    margin-top: -22px;
-    right: 25px;
+    margin-bottom: 30px;
   }
   
   .mission-title {
@@ -105,17 +72,18 @@
     color: white;
     margin-top: 40px; /* Justera detta värde vid behov */
     margin-bottom: 50px;
+    max-width: fit-content;
   }
   
   .mission-details {
     color: white;
     margin-top: -10px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
 
   .user-villkor {
     margin-top: 0px;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
   }
   
   .villkor-time-container {
@@ -123,6 +91,13 @@
     justify-content: space-between;
     align-items: center;
     margin-top: 20px;
+    margin-right: 20px;
+  }
+
+  .time-display {
+   font-size:medium;
+   margin-right: 1px;
+   margin-bottom: 10px;
   }
   
   .villkor-title {
@@ -134,67 +109,92 @@
 
   .box-title-motivering {
     position: absolute;
-    margin-top: 15px;
-    margin-left: 11px;
-    width: 103px;
-    height: 10px;
+    margin-top: 10px;
+    margin-left: 17px;
+    width: 92px;
+    height: 4px;
     background-color: #082744;
   }
 
 .title-motivering {
     position: absolute;
     color: #ffffff;
-    margin-top: 10px;
+    margin-top: -1px;
     margin-bottom: 10px;
     margin-left: 19px;
     font-size: 17px;
     font-weight: bold;
   }
-  
+  /* Bakgrundsfärg vid hover *//* Bakgrundsfärg vid hover *//* Bakgrundsfärg vid hover *//* Bakgrundsfärg vid hover *//* Bakgrundsfärg vid hover */
+  /* Bakgrundsfärg vid hover *//* Bakgrundsfärg vid hover *//* Bakgrundsfärg vid hover *//* Bakgrundsfärg vid hover *//* Bakgrundsfärg vid hover */
   .motivering {
-    border-radius: 8px;
-    padding: 20px 20px 0 20px;
-    width: 89%;
-    height: 38px;
-    margin-top: 20px;
-    margin-bottom: 30px;
-    background-color: #082744;
+    position: initial; /* För positionering av cirkeln och poäng */
+    border-radius: 0px 10px 0px 10px;
+    padding: 20px 3.5% 0 3.5%;
+    width: 93%;
+    height: 68px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #08274439;
     color: #e5e5e5;
     font-size: 15px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     border: 0.5px solid #ffffff;
     resize: none; /* Hindrar användaren från att manuellt ändra storleken */
     overflow: hidden; /* Håller innehållet inom ramarna av textarea */
-    min-height: 10px; /* Start höjd */
+    min-height: 48px; /* Start höjd */
+    animation: motovation 4s ease-in-out infinite;
+    
   }
-  
-  
-  /* Befintliga stilar ... */
+/* Bakgrundsfärg vid hover *//* Bakgrundsfärg vid hover *//* Bakgrundsfärg vid hover *//* Bakgrundsfärg vid hover *//* Bakgrundsfärg vid hover *//* Bakgrundsfärg vid hover *//* Bakgrundsfärg vid hover */
+  .motivering:hover {
+    background-color: #13436d;
+  }
+
+
+@keyframes motovation {
+
+  40% {
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.135);
+    }
+  0%,  100% {
+      box-shadow: 0px 0px 6px rgba(255, 255, 255, 0.997);
+
+  }
+}
+
+
+
+
 
   
   .play-checkbox-container {
     margin-top: 10px;
     font-weight: lighter;
+    display: flex;
   }
 
     .godkann {
         font-size: 16px;
         margin-left: 10px;
+        margin-top: 0px;
     }
 
     .play-checkbox-container-picture {
-        margin-top: -10px;
         font-weight: lighter;
       }
 
       .bifoga-bild {
-        margin-left: 10px;
         font-size: 16px;
+        margin-left: 25px;
+        margin-top: -18px;
+        display: flex;
+
       }
 
       .uploaded-file-name {
         margin-left: 10px;
-        /* Lägg till ytterligare styling om det behövs */
+        
       }
 
     
@@ -202,15 +202,16 @@
   .status-submit {
     display: flex;
     justify-content: space-between;
-    margin-top: 29px;
   }
 
   .skicka-in {
-    background: transparent;
-    color: #FFD700;
-    font-size: 17px;
+    color: green;
+    background-color: transparent;
     border: transparent;
+    font-size: 25px;
+    cursor: pointer;
     font-weight: bold;
+
   }
   
   .custom-hr {
@@ -228,14 +229,20 @@
 
         .väntar {
             color: #5c5c5c;
+            cursor: pointer;
+
         }
 
         .deltar {
-            color: green;
+            color: rgb(255, 255, 255);
+            cursor: pointer;
+
         }
 
         .klara {
             color: #FFD700; /* Bakgrundsfärg vid hover */
+            cursor: pointer;
+
         }
   
   /* Använd samma stil som i create.css för denna HR */
@@ -290,6 +297,7 @@
     margin-left: -20px;
     margin-top: 30px;
     margin-bottom: 30px;
+    width: 80%;
   }
   
   .motivering-header {

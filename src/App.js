@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import './firebaseConfig';
-import { PointsProvider } from './hooks/PointsContext'; // Importera PointsProvider
+import { useNavigate } from 'react-router-dom';
+import { PointsProvider } from './hooks/PointsContext';
 import NavigationBar from './NavigationBar';
 import Create from './Pages/Create';
 import Game from './Pages/Game';
@@ -13,34 +14,49 @@ import LoginRegister from './Pages/LoginRegister';
 import useAuth from './hooks/useAuth';
 import './App.css';
 
+const GameButton = memo(() => {
+  let navigate = useNavigate();
+  const navigateToGame = useCallback(() => {
+    navigate('/game');
+  }, [navigate]);
+
+  return (
+    <div className="center-container">
+      <button className="game-button" onClick={navigateToGame}>
+        Gå till Game
+      </button>
+    </div>
+  );
+});
+
+const PrivateRoute = memo(({ children, user }) => (
+  user ? children : <Navigate to="/loginregister" />
+));
+
 function App() {
   const [missions, setMissions] = useState([]);
-  const { user } = useAuth(); // Använd hook för att hantera autentisering
+  const { user } = useAuth();
 
-
-  const handleMissionSubmit = (missionData) => {
+  const handleMissionSubmit = useCallback((missionData) => {
     const newMission = { ...missionData, id: missions.length + 1 };
     setMissions(prevMissions => [...prevMissions, newMission]);
-  };
-
-  const PrivateRoute = ({ children }) => (
-    user ? children : <Navigate to="/loginregister" />
-  );
+  }, [missions]);
 
   return (
     <Router>
       <PointsProvider>
         <div className="App">
-          <NavigationBar user={user} /> 
+          <NavigationBar user={user} />
           <Routes>
-            <Route path="/" element={<Game missions={missions} />} />
+            <Route path="/" element={<GameButton />} />
+            <Route path="/game" element={<Game missions={missions} />} />
             <Route path="/create" element={<Create onSubmit={handleMissionSubmit} />} />
             <Route path="/play" element={<Play />} />
             <Route path="/loginregister" element={<LoginRegister />} />
-            <Route path="/profil" element={<PrivateRoute><Profil /></PrivateRoute>} />
-                <Route path="/UserProfile/:userId" element={<UserProfile />} />
-            <Route path="/chat" element={<PrivateRoute><Chat /></PrivateRoute>} />
-                <Route path="/chat/:otherUserId" element={<PrivateRoute><Chat /></PrivateRoute>} />
+            <Route path="/profil" element={<PrivateRoute user={user}><Profil missions={missions} /></PrivateRoute>} />
+            <Route path="/UserProfile/:userId" element={<UserProfile />} />
+            <Route path="/chat" element={<PrivateRoute user={user}><Chat /></PrivateRoute>} />
+            <Route path="/chat/:otherUserId" element={<PrivateRoute user={user}><Chat /></PrivateRoute>} />
           </Routes>
         </div>
       </PointsProvider>

@@ -55,8 +55,10 @@ const Chat = () => {
   
 
   return (
+  <div className='chat-scale'>
     <div className="chat-container">
       <div className="messages-container">
+
         {messages.map((message, index) => (
           <div 
             key={index}
@@ -77,6 +79,7 @@ const Chat = () => {
         />
         <button onClick={handleSendMessage} className="send-button">Skicka</button>
       </div>
+    </div>
     </div>
   );
 };
